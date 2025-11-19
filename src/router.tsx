@@ -1,10 +1,18 @@
-import { createBrowserRouter, Outlet } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Outlet,
+  type RouteObject,
+} from "react-router-dom";
 import BaseLayout from "@/layouts/base-layout";
-import PageLayout from "./layouts/page-layout";
-import Dashboard from "./pages/dashboard";
+import PageLayout from "@/layouts/page-layout";
+import Dashboard from "@/pages/dashboard";
+import Basic from "@/pages/create-contact/basic";
+import Contact from "@/pages/create-contact/contact";
+import Summary from "@/pages/create-contact/summary";
 
-const router = createBrowserRouter([
+const baseLayoutRoutes: RouteObject[] = [
   {
+    path: "/",
     element: (
       <BaseLayout>
         <Outlet />
@@ -12,7 +20,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "/",
+        index: true,
         element: (
           <PageLayout
             title="Dashboard"
@@ -23,6 +31,32 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+];
+
+const noLayoutRoutes: RouteObject[] = [
+  {
+    path: "/create-contact",
+    children: [
+      {
+        index: true,
+        element: <Basic />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+      {
+        path: "summary",
+        element: <Summary />,
+      },
+    ],
+  },
+];
+
+const router = createBrowserRouter([
+  {
+    children: [...baseLayoutRoutes, ...noLayoutRoutes],
   },
 ]);
 
