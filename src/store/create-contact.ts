@@ -53,5 +53,5 @@ export const createContactStore = create<CreateContactStore>((set, get) => ({
 }));
 
 export const useCreateContactStore = <T>(
-  selector: (state: CreateContactStore) => T
+  selector: (state: CreateContactStore) => T,
 ): T => useStore(createContactStore, selector);

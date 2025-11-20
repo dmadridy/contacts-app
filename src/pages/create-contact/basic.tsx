@@ -1,20 +1,21 @@
+import { useCreateContactStore } from "@/store/create-contact";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { useCreateContactStore } from "@/store/create-contact";
-import { useNavigate } from "react-router-dom";
-import Navigation from "../../components/create-contact/navigation";
 import FieldsWrapper from "../../components/create-contact/fields-wrapper";
+import Navigation from "../../components/create-contact/navigation";
 
 const formSchema = z.object({
   firstName: z.string().min(1),
@@ -44,7 +45,7 @@ export default function Basic() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col min-h-screen"
+        className="flex min-h-screen flex-col"
       >
         <FieldsWrapper>
           <FormField
