@@ -14,8 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import FieldsWrapper from "../../components/create-contact/fields-wrapper";
-import Navigation from "../../components/create-contact/navigation";
+import FieldsWrapper from "./components/fields-wrapper";
+import Navigation from "./components/navigation";
 
 const formSchema = z.object({
   firstName: z.string().min(1),

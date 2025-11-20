@@ -1,6 +1,6 @@
-import Header from "./header";
-import Footer from "./footer";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "./footer";
+import Header from "./header";
 
 export default function BaseLayout({
   children,
@@ -8,10 +8,10 @@ export default function BaseLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="flex min-h-screen flex-col">
       <Toaster />
       <Header />
-      <main className="flex-1 flex flex-col container mx-auto p-4">
+      <main className="container mx-auto flex flex-1 flex-col p-4">
         {children}
       </main>
       <Footer />

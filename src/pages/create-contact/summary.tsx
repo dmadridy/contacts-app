@@ -1,15 +1,16 @@
-import { Button } from "@/components/ui/button";
 import { useCreateContactStore } from "@/store/create-contact";
 import { useNavigate } from "react-router-dom";
-import Navigation from "../../components/create-contact/navigation";
-import FieldsWrapper from "../../components/create-contact/fields-wrapper";
+
+import { Button } from "@/components/ui/button";
+import FieldsWrapper from "./components/fields-wrapper";
+import Navigation from "./components/navigation";
 
 export default function Summary() {
   const data = useCreateContactStore((state) => state.data);
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <FieldsWrapper>
         <h1 className="text-2xl font-bold">Summary</h1>
         <div>
