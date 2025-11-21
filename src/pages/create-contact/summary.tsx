@@ -1,6 +1,6 @@
-import { useCreateContactStore } from "@/store/create-contact";
 import { useNavigate } from "react-router-dom";
 
+import { useCreateContactStore } from "@/lib/store/create-contact";
 import { Button } from "@/components/ui/button";
 import FieldsWrapper from "./components/fields-wrapper";
 import Navigation from "./components/navigation";

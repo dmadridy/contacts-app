@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import type { Contact } from "@/types";
+import type { Contact } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table";
 import { columns } from "./columns";

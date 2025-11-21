@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/react-table";
 
-import type { Contact } from "@/types";
+import type { Contact } from "@/lib/types";
 
 export const columns: ColumnDef<Contact>[] = [
   {

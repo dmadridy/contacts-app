@@ -1,5 +1,3 @@
-import BaseLayout from "@/layouts/base-layout";
-import PageLayout from "@/layouts/page-layout";
 import {
   createBrowserRouter,
   Outlet,
@@ -12,6 +10,8 @@ import Contact from "@/pages/create-contact/contact";
 import Summary from "@/pages/create-contact/summary";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
+import BaseLayout from "@/components/layouts/base-layout";
+import PageLayout from "@/components/layouts/page-layout";
 
 const baseLayoutRoutes: RouteObject[] = [
   {
