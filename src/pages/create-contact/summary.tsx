@@ -1,4 +1,7 @@
+import { db } from "@/main";
+import { addDoc, collection } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 import { useCreateContactStore } from "@/lib/store/create-contact";
 import { Button } from "@/components/ui/button";
@@ -8,6 +11,20 @@ import Navigation from "./components/navigation";
 export default function Summary() {
   const data = useCreateContactStore((state) => state.data);
   const navigate = useNavigate();
+
+  async function addContact() {
+    try {
+      await addDoc(collection(db, "contacts"), {
+        firstName: data.basicInfo?.firstName,
+        lastName: data.basicInfo?.lastName,
+        email: data.contactInfo?.email,
+        phone: data.contactInfo?.phone,
+      });
+      toast.success("Contact created successfully");
+    } catch {
+      toast.error("Error creating contact");
+    }
+  }
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -27,6 +44,14 @@ export default function Summary() {
           onClick={() => navigate("/create-contact/contact")}
         >
           Back
+        </Button>
+        <Button
+          onClick={() => {
+            addContact();
+            navigate("/contacts");
+          }}
+        >
+          Create Contact
         </Button>
       </Navigation>
     </div>
