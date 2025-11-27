@@ -5,13 +5,14 @@ import {
 } from "react-router-dom";
 
 import Contacts from "@/pages/contacts";
-import Basic from "@/pages/create-contact/basic";
-import Contact from "@/pages/create-contact/contact";
-import Summary from "@/pages/create-contact/summary";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
 import BaseLayout from "@/components/layouts/base-layout";
 import PageLayout from "@/components/layouts/page-layout";
+import Contact from "./pages/contact";
+import Step1 from "./pages/create-contact/step-1";
+import Step2 from "./pages/create-contact/step-2";
+import Step3 from "./pages/create-contact/step-3";
 
 const baseLayoutRoutes: RouteObject[] = [
   {
@@ -41,6 +42,14 @@ const baseLayoutRoutes: RouteObject[] = [
           </PageLayout>
         ),
       },
+      {
+        path: "contact/:id",
+        element: (
+          <PageLayout title="Contact" description="This is the contact page.">
+            <Contact />
+          </PageLayout>
+        ),
+      },
     ],
   },
 ];
@@ -51,15 +60,15 @@ const noLayoutRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Basic />,
+        element: <Step1 />,
       },
       {
         path: "contact",
-        element: <Contact />,
+        element: <Step2 />,
       },
       {
         path: "summary",
-        element: <Summary />,
+        element: <Step3 />,
       },
     ],
   },

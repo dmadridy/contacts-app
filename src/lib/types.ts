@@ -4,4 +4,6 @@ export type Contact = {
   lastName: string;
   email: string;
   phone: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

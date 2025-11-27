@@ -16,7 +16,12 @@ export default function Contacts() {
     try {
       const fetchContacts = async () => {
         const contacts = await getDocs(collection(db, "contacts"));
-        setContacts(contacts.docs.map((doc) => doc.data() as Contact));
+        setContacts(
+          contacts.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })) as Contact[],
+        );
       };
       fetchContacts();
     } catch {

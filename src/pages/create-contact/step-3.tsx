@@ -1,5 +1,5 @@
 import { db } from "@/main";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -19,6 +19,8 @@ export default function Summary() {
         lastName: data.basicInfo?.lastName,
         email: data.contactInfo?.email,
         phone: data.contactInfo?.phone,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
       });
       toast.success("Contact created successfully");
     } catch {
