@@ -9,7 +9,7 @@ export default function BaseLayout({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <Toaster />
+      <Toaster closeButton richColors position="top-right" />
       <Header />
       <main className="container mx-auto flex flex-1 flex-col p-4">
         {children}

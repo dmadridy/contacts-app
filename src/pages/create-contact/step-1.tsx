@@ -32,6 +32,7 @@ export default function Basic() {
   const form = useForm<FormSchema>({
     defaultValues: data.basicInfo,
     resolver: zodResolver(formSchema),
+    mode: "onChange",
   });
 
   function onSubmit(data: FormSchema) {
@@ -53,7 +54,7 @@ export default function Basic() {
             name="firstName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name</FormLabel>
+                <FormLabel>First Name</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

@@ -32,6 +32,7 @@ export default function Contact() {
   const form = useForm<FormSchema>({
     defaultValues: data.contactInfo,
     resolver: zodResolver(formSchema),
+    mode: "onChange",
   });
 
   function onSubmit(data: FormSchema) {
