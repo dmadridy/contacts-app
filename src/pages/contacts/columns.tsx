@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import type { Contact } from "@/lib/types";
+import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -39,6 +40,9 @@ export const columns: ColumnDef<Contact>[] = [
   {
     accessorKey: "phone",
     header: "Phone",
+    cell: ({ row }) => {
+      return <p>{formatPhoneNumber(row.original.phone)}</p>;
+    },
   },
   {
     id: "actions",

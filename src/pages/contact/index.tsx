@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import type { Contact } from "@/lib/types";
+import { formatPhoneNumber } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import EditContactDialog from "./components/edit-contact-dialog";
 
@@ -36,7 +37,7 @@ export default function Contact() {
         </CardHeader>
         <CardContent>
           <p>{contact?.email}</p>
-          <p>{contact?.phone}</p>
+          <p>{contact?.phone ? formatPhoneNumber(contact.phone) : ""}</p>
         </CardContent>
       </Card>
     </div>

@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import type { Contact } from "@/lib/types";
+import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
+import { phoneSchema } from "@/lib/zod-schemas/phone";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -32,7 +34,7 @@ const formSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().email(),
-  phone: z.string().min(1),
+  phone: phoneSchema,
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -59,11 +61,13 @@ export default function EditContactDialog({
   async function editContact(data: FormSchema) {
     try {
       if (!id) return;
+      // Strip phone formatting before saving to database
+      const unformattedPhone = stripPhoneFormatting(data.phone);
       await updateDoc(doc(db, "contacts", id), {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
-        phone: data.phone,
+        phone: unformattedPhone, // Store unformatted phone number
         updatedAt: serverTimestamp(),
       });
       setOpen(false);
@@ -79,7 +83,7 @@ export default function EditContactDialog({
         firstName: contact.firstName,
         lastName: contact.lastName,
         email: contact.email,
-        phone: contact.phone,
+        phone: contact.phone ? formatPhoneNumber(contact.phone) : "",
       });
     }
   }, [contact, form]);
@@ -146,7 +150,16 @@ export default function EditContactDialog({
                 <FormItem>
                   <FormLabel>Phone</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input
+                      {...field}
+                      value={field.value || ""}
+                      onChange={(e) => {
+                        const formatted = formatPhoneNumber(e.target.value);
+                        field.onChange(formatted);
+                      }}
+                      placeholder="(XXX) XXX-XXXX"
+                      maxLength={14} // (XXX) XXX-XXXX = 14 characters
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

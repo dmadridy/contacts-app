@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useCreateContactStore } from "@/lib/store/create-contact";
+import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
+import { phoneSchema } from "@/lib/zod-schemas/phone";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -19,7 +21,7 @@ import Navigation from "./components/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
-  phone: z.string().min(1),
+  phone: phoneSchema,
 });
 
 type FormSchema = z.infer<typeof formSchema>;
@@ -37,7 +39,10 @@ export default function Contact() {
 
   function onSubmit(data: FormSchema) {
     setData({
-      contactInfo: data,
+      contactInfo: {
+        email: data.email,
+        phone: stripPhoneFormatting(data.phone),
+      },
     });
     navigate("/create-contact/summary");
   }
@@ -69,7 +74,14 @@ export default function Contact() {
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input
+                    {...field}
+                    value={field.value || ""}
+                    onChange={(e) => {
+                      const formatted = formatPhoneNumber(e.target.value);
+                      field.onChange(formatted);
+                    }}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
