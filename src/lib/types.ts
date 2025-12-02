@@ -4,6 +4,12 @@ export type Contact = {
   lastName: string;
   email: string;
   phone: string;
+  keywords: Keyword[];
   createdAt: Date;
   updatedAt: Date;
+};
+
+export type Keyword = {
+  label: string;
+  value: string;
 };

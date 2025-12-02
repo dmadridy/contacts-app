@@ -1,11 +1,14 @@
 import { create, useStore } from "zustand";
 
+import type { Keyword } from "@/lib/types";
+
 type Step = "basic" | "contact";
 
 interface ContactData {
   basicInfo: {
     firstName: string;
     lastName: string;
+    keywords: Keyword[];
   };
   contactInfo: {
     email: string;
@@ -25,6 +28,7 @@ const initialData: ContactData = {
   basicInfo: {
     firstName: "",
     lastName: "",
+    keywords: [],
   },
   contactInfo: {
     email: "",

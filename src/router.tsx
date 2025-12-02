@@ -10,9 +10,9 @@ import NotFound from "@/pages/not-found";
 import BaseLayout from "@/components/layouts/base-layout";
 import PageLayout from "@/components/layouts/page-layout";
 import Contact from "./pages/contact";
-import Step1 from "./pages/create-contact/step-1";
-import Step2 from "./pages/create-contact/step-2";
-import Step3 from "./pages/create-contact/step-3";
+import BasicStep from "./pages/create-contact/basic-step";
+import ContactStep from "./pages/create-contact/contact-step";
+import SummaryStep from "./pages/create-contact/summary-step";
 
 const baseLayoutRoutes: RouteObject[] = [
   {
@@ -60,15 +60,15 @@ const noLayoutRoutes: RouteObject[] = [
     children: [
       {
         index: true,
-        element: <Step1 />,
+        element: <BasicStep />,
       },
       {
         path: "contact",
-        element: <Step2 />,
+        element: <ContactStep />,
       },
       {
         path: "summary",
-        element: <Step3 />,
+        element: <SummaryStep />,
       },
     ],
   },

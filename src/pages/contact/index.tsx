@@ -7,7 +7,9 @@ import { toast } from "sonner";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import EditContactDialog from "./components/edit-contact-dialog";
+import Keywords from "./components/keywords";
 
 export default function Contact() {
   const { id } = useParams();
@@ -38,6 +40,8 @@ export default function Contact() {
         <CardContent>
           <p>{contact?.email}</p>
           <p>{contact?.phone ? formatPhoneNumber(contact.phone) : ""}</p>
+          <Separator className="my-4" />
+          <Keywords keywords={contact?.keywords || []} />
         </CardContent>
       </Card>
     </div>

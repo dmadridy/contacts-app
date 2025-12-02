@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 import { useCreateContactStore } from "@/lib/store/create-contact";
+import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import FieldsWrapper from "./components/fields-wrapper";
 import Navigation from "./components/navigation";
@@ -15,10 +16,8 @@ export default function Summary() {
   async function addContact() {
     try {
       await addDoc(collection(db, "contacts"), {
-        firstName: data.basicInfo?.firstName,
-        lastName: data.basicInfo?.lastName,
-        email: data.contactInfo?.email,
-        phone: data.contactInfo?.phone,
+        ...data.basicInfo,
+        ...data.contactInfo,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
       });
@@ -34,10 +33,10 @@ export default function Summary() {
         <h1 className="text-2xl font-bold">Summary</h1>
         <div>
           <p>
-            Name: {data.basicInfo?.firstName} {data.basicInfo?.lastName}
+            Name: {data.basicInfo.firstName} {data.basicInfo.lastName}
           </p>
-          <p>Email: {data.contactInfo?.email}</p>
-          <p>Phone: {data.contactInfo?.phone}</p>
+          <p>Email: {data.contactInfo.email}</p>
+          <p>Phone: {formatPhoneNumber(data.contactInfo.phone)}</p>
         </div>
       </FieldsWrapper>
       <Navigation>
