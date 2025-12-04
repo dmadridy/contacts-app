@@ -13,6 +13,7 @@ import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
 import ContactStep from "./pages/create-contact/contact-step";
 import SummaryStep from "./pages/create-contact/summary-step";
+import SignIn from "./pages/sign-in";
 
 const baseLayoutRoutes: RouteObject[] = [
   {
@@ -55,6 +56,10 @@ const baseLayoutRoutes: RouteObject[] = [
 ];
 
 const noLayoutRoutes: RouteObject[] = [
+  {
+    path: "/sign-in",
+    element: <SignIn />,
+  },
   {
     path: "/create-contact",
     children: [

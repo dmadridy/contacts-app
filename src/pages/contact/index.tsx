@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
 import { db } from "@/main";
-import { doc, getDoc } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { doc, onSnapshot } from "firebase/firestore";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import type { Contact } from "@/lib/types";
-import { formatPhoneNumber } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Phone from "@/components/phone";
 import EditContactDialog from "./components/edit-contact-dialog";
 import Keywords from "./components/keywords";
 
 export default function Contact() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [contact, setContact] = useState<Contact | null>(null);
 
   useEffect(() => {
     if (!id) return;
-    try {
-      const fetchContact = async () => {
-        const contact = await getDoc(doc(db, "contacts", id));
-        setContact(contact.data() as Contact);
-      };
-      fetchContact();
-    } catch {
-      toast.error("Error fetching contact");
-    }
-  }, [id]);
+
+    const unsubscribe = onSnapshot(
+      doc(db, "contacts", id),
+      (docSnapshot) => {
+        setContact(docSnapshot.data() as Contact);
+      },
+      () => {
+        toast.error("Error fetching contact");
+        navigate("/contacts");
+      },
+    );
+
+    return () => unsubscribe();
+  }, [id, navigate]);
 
   return (
     <div>
@@ -39,9 +44,9 @@ export default function Contact() {
         </CardHeader>
         <CardContent>
           <p>{contact?.email}</p>
-          <p>{contact?.phone ? formatPhoneNumber(contact.phone) : ""}</p>
+          <Phone phone={contact?.phone} />
           <Separator className="my-4" />
-          <Keywords keywords={contact?.keywords || []} />
+          <Keywords keywords={contact?.keywords} />
         </CardContent>
       </Card>
     </div>

@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { db } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import { PencilIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { PencilIcon, XIcon } from "lucide-react";
+import { useForm, useWatch } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { KEYWORDS_OPTIONS } from "@/lib/constants";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
 import { phoneSchema } from "@/lib/zod-schemas/phone";
@@ -21,8 +22,15 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -33,6 +41,15 @@ import { Input } from "@/components/ui/input";
 const formSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
+  keywords: z
+    .array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
+      }),
+    )
+    .min(1, "Select at least one keyword")
+    .max(10, "Maximum 10 keywords allowed"),
   email: z.string().email(),
   phone: phoneSchema,
 });
@@ -54,9 +71,24 @@ export default function EditContactDialog({
       lastName: "",
       email: "",
       phone: "",
+      keywords: [],
     },
     mode: "onChange",
   });
+
+  const keywords = useWatch({
+    control: form.control,
+    name: "keywords",
+  });
+
+  function handleSelectKeyword(option: { label: string; value: string }) {
+    const newKeywords = keywords?.some((item) => item.value === option.value)
+      ? keywords.filter((item) => item.value !== option.value)
+      : [...keywords, option];
+    form.setValue("keywords", newKeywords, {
+      shouldValidate: true,
+    });
+  }
 
   async function editContact(data: FormSchema) {
     try {
@@ -68,6 +100,7 @@ export default function EditContactDialog({
         lastName: data.lastName,
         email: data.email,
         phone: unformattedPhone, // Store unformatted phone number
+        keywords: data.keywords,
         updatedAt: serverTimestamp(),
       });
       setOpen(false);
@@ -83,7 +116,8 @@ export default function EditContactDialog({
         firstName: contact.firstName,
         lastName: contact.lastName,
         email: contact.email,
-        phone: contact.phone ? formatPhoneNumber(contact.phone) : "",
+        phone: formatPhoneNumber(contact.phone),
+        keywords: contact.keywords || [],
       });
     }
   }, [contact, form]);
@@ -165,6 +199,70 @@ export default function EditContactDialog({
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="keywords"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Keywords</FormLabel>
+                  <FormDescription>
+                    You can select up to 10 keywords
+                  </FormDescription>
+                  <DropdownMenu>
+                    <FormControl>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          disabled={keywords?.length >= 10}
+                          variant="outline"
+                          className="w-full"
+                        >
+                          {keywords?.length > 0
+                            ? `${keywords.length} keyword${keywords.length > 1 ? "s" : ""} selected`
+                            : "Select keywords"}
+                        </Button>
+                      </DropdownMenuTrigger>
+                    </FormControl>
+                    <DropdownMenuContent
+                      className="max-h-60 max-w-60"
+                      align="start"
+                      side="bottom"
+                    >
+                      {KEYWORDS_OPTIONS.map((keyword) => {
+                        const isSelected = keywords?.some(
+                          (item) => item.value === keyword.value,
+                        );
+
+                        return (
+                          <DropdownMenuCheckboxItem
+                            key={keyword.value}
+                            checked={isSelected}
+                            onCheckedChange={() => handleSelectKeyword(keyword)}
+                          >
+                            {keyword.label}
+                          </DropdownMenuCheckboxItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {keywords?.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {keywords.map((keyword) => (
+                  <Button
+                    onClick={() => handleSelectKeyword(keyword)}
+                    variant="outline"
+                    size="sm"
+                    key={keyword.value}
+                  >
+                    {keyword.label}
+                    <XIcon className="size-4 cursor-pointer" />
+                  </Button>
+                ))}
+              </div>
+            )}
             <DialogFooter>
               <Button
                 type="button"

@@ -4,6 +4,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
+import { KEYWORDS_OPTIONS } from "@/lib/constants";
 import { useCreateContactStore } from "@/lib/store/create-contact";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,69 +25,6 @@ import {
 import { Input } from "@/components/ui/input";
 import FieldsWrapper from "./components/fields-wrapper";
 import Navigation from "./components/navigation";
-
-const keywordsOptions = [
-  {
-    label: "Well connected",
-    value: "well-connected",
-  },
-  {
-    label: "Easy to reach",
-    value: "easy-to-reach",
-  },
-  {
-    label: "Friendly",
-    value: "friendly",
-  },
-  {
-    label: "Professional",
-    value: "professional",
-  },
-  {
-    label: "Reliable",
-    value: "reliable",
-  },
-  {
-    label: "Trustworthy",
-    value: "trustworthy",
-  },
-  {
-    label: "Honest",
-    value: "honest",
-  },
-  {
-    label: "Hardworking",
-    value: "hardworking",
-  },
-  {
-    label: "Punctual",
-    value: "punctual",
-  },
-  {
-    label: "Organized",
-    value: "organized",
-  },
-  {
-    label: "Detail-oriented",
-    value: "detail-oriented",
-  },
-  {
-    label: "Creative",
-    value: "creative",
-  },
-  {
-    label: "Innovative",
-    value: "innovative",
-  },
-  {
-    label: "Team player",
-    value: "team-player",
-  },
-  {
-    label: "Leader",
-    value: "leader",
-  },
-];
 
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
@@ -197,7 +135,7 @@ export default function Basic() {
                     align="start"
                     side="bottom"
                   >
-                    {keywordsOptions.map((keyword) => {
+                    {KEYWORDS_OPTIONS.map((keyword) => {
                       const isSelected = keywords.some(
                         (item) => item.value === keyword.value,
                       );
