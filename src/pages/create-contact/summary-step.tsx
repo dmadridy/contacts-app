@@ -10,8 +10,9 @@ import FieldsWrapper from "./components/fields-wrapper";
 import Navigation from "./components/navigation";
 
 export default function Summary() {
-  const data = useCreateContactStore((state) => state.data);
   const navigate = useNavigate();
+  const data = useCreateContactStore((state) => state.data);
+  const reset = useCreateContactStore((state) => state.reset);
 
   async function addContact() {
     try {
@@ -50,6 +51,7 @@ export default function Summary() {
           onClick={() => {
             addContact();
             navigate("/contacts");
+            reset();
           }}
         >
           Create Contact

@@ -30,12 +30,7 @@ const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   keywords: z
-    .array(
-      z.object({
-        label: z.string(),
-        value: z.string(),
-      }),
-    )
+    .array(z.string().min(1, "Keyword is required"))
     .min(1, "Select at least one keyword")
     .max(10, "Maximum 10 keywords allowed"),
 });
@@ -58,9 +53,9 @@ export default function Basic() {
     name: "keywords",
   });
 
-  function handleSelectKeyword(option: { label: string; value: string }) {
-    const newKeywords = keywords.some((item) => item.value === option.value)
-      ? keywords.filter((item) => item.value !== option.value)
+  function handleSelectKeyword(option: string) {
+    const newKeywords = keywords.some((item) => item === option)
+      ? keywords.filter((item) => item !== option)
       : [...keywords, option];
     form.setValue("keywords", newKeywords, {
       shouldValidate: true,
@@ -137,16 +132,16 @@ export default function Basic() {
                   >
                     {KEYWORDS_OPTIONS.map((keyword) => {
                       const isSelected = keywords.some(
-                        (item) => item.value === keyword.value,
+                        (item) => item === keyword,
                       );
 
                       return (
                         <DropdownMenuCheckboxItem
-                          key={keyword.value}
+                          key={keyword}
                           checked={isSelected}
                           onCheckedChange={() => handleSelectKeyword(keyword)}
                         >
-                          {keyword.label}
+                          {keyword}
                         </DropdownMenuCheckboxItem>
                       );
                     })}
@@ -163,9 +158,9 @@ export default function Basic() {
                   onClick={() => handleSelectKeyword(keyword)}
                   variant="outline"
                   size="sm"
-                  key={keyword.value}
+                  key={keyword}
                 >
-                  {keyword.label}
+                  {keyword}
                   <XIcon className="size-4 cursor-pointer" />
                 </Button>
               ))}
