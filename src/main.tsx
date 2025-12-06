@@ -6,7 +6,12 @@ import "@/index.css";
 import router from "@/router";
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 import { RouterProvider } from "react-router-dom";
 
 const firebaseConfig = {
@@ -21,7 +26,15 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+// Initialize Firestore with local cache
+initializeFirestore(app, {
+  localCache: persistentLocalCache({
+    tabManager: persistentMultipleTabManager(),
+  }),
+});
+// Get Firestore instance
 const db = getFirestore(app);
+// Initialize Analytics
 const analytics = getAnalytics(app);
 
 createRoot(document.getElementById("root")!).render(

@@ -30,7 +30,9 @@ export default function Contact() {
       },
     );
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, [id, navigate]);
 
   return (
