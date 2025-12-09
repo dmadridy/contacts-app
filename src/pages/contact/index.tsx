@@ -36,21 +36,19 @@ export default function Contact() {
   }, [id, navigate]);
 
   return (
-    <div>
-      <Card>
-        <CardHeader className="flex items-center justify-between">
-          <CardTitle>
-            {contact?.firstName} {contact?.lastName}
-          </CardTitle>
-          <EditContactDialog contact={contact} />
-        </CardHeader>
-        <CardContent>
-          <p>{contact?.email}</p>
-          <Phone phone={contact?.phone} />
-          <Separator className="my-4" />
-          <Keywords keywords={contact?.keywords} />
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle>
+          {contact?.firstName} {contact?.lastName}
+        </CardTitle>
+        <EditContactDialog contact={contact} />
+      </CardHeader>
+      <CardContent>
+        <p>{contact?.email}</p>
+        <Phone phone={contact?.phone} />
+        <Separator className="my-4" />
+        <Keywords keywords={contact?.keywords} />
+      </CardContent>
+    </Card>
   );
 }

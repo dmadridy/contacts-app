@@ -1,4 +1,3 @@
-import { Toaster } from "@/components/ui/sonner";
 import Footer from "./footer";
 import Header from "./header";
 
@@ -9,7 +8,6 @@ export default function BaseLayout({
 }) {
   return (
     <div className="flex min-h-screen flex-col">
-      <Toaster closeButton richColors position="top-right" />
       <Header />
       <main className="container mx-auto flex flex-1 flex-col p-4">
         {children}

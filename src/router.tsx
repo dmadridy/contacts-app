@@ -13,6 +13,7 @@ import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
 import ContactStep from "./pages/create-contact/contact-step";
 import SummaryStep from "./pages/create-contact/summary-step";
+import Settings from "./pages/settings";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up.tsx";
 
@@ -49,6 +50,14 @@ const baseLayoutRoutes: RouteObject[] = [
         element: (
           <PageLayout title="Contact" description="This is the contact page.">
             <Contact />
+          </PageLayout>
+        ),
+      },
+      {
+        path: "settings",
+        element: (
+          <PageLayout title="Settings" description="This is the settings page.">
+            <Settings />
           </PageLayout>
         ),
       },
