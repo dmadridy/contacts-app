@@ -4,10 +4,9 @@ import { createRoot } from "react-dom/client";
 import "@/index.css";
 
 import router from "@/router";
-import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import {
-  getFirestore,
   initializeFirestore,
   persistentLocalCache,
   persistentMultipleTabManager,
@@ -26,16 +25,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// Initialize Firestore with local cache
-initializeFirestore(app, {
+// Initialize Firestore with local cache persistence
+const db = initializeFirestore(app, {
   localCache: persistentLocalCache({
     tabManager: persistentMultipleTabManager(),
   }),
 });
-// Get Firestore instance
-const db = getFirestore(app);
-// Initialize Analytics
-const analytics = getAnalytics(app);
+// Initialize Auth
+const auth = getAuth(app);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -43,4 +40,4 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 
-export { app, db, analytics };
+export { app, db, auth };

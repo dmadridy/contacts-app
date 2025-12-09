@@ -1,6 +1,6 @@
 import { auth } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -18,19 +18,26 @@ import {
 import { Input } from "@/components/ui/input";
 import FieldsWrapper from "./create-contact/components/fields-wrapper";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+const formSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8),
+    confirmPassword: z.string().min(8),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 type FormSchema = z.infer<typeof formSchema>;
 
-export default function SignIn() {
+export default function SignUp() {
   const navigate = useNavigate();
   const form = useForm<FormSchema>({
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
     resolver: zodResolver(formSchema),
     mode: "onSubmit",
@@ -38,12 +45,12 @@ export default function SignIn() {
 
   async function onSubmit(data: FormSchema) {
     try {
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      await createUserWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
-      toast.success("Signed in successfully");
+      toast.success("Account created successfully");
     } catch (error) {
       console.error(error);
-      toast.error("Error signing in");
+      toast.error("Error creating account");
     }
   }
 
@@ -80,7 +87,20 @@ export default function SignIn() {
               </FormItem>
             )}
           />
-          <Button type="submit">Sign In</Button>
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input type="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Create Account</Button>
         </FieldsWrapper>
       </form>
     </Form>
