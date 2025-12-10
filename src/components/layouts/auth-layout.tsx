@@ -1,7 +1,7 @@
 import Footer from "./footer";
 import Header from "./header";
 
-export default function BaseLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;

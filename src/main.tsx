@@ -5,7 +5,7 @@ import "@/index.css";
 
 import router from "@/router";
 import { initializeApp } from "firebase/app";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import {
   initializeFirestore,
   persistentLocalCache,
@@ -13,8 +13,6 @@ import {
 } from "firebase/firestore";
 import { RouterProvider } from "react-router-dom";
 import { Toaster } from "sonner";
-
-import { userStore } from "./lib/store/user";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAI9U5G2MeUYs1_WzECy5kChJUfjx1ZnEw",
@@ -36,9 +34,6 @@ const db = initializeFirestore(app, {
 });
 // Initialize Auth
 const auth = getAuth(app);
-onAuthStateChanged(auth, (user) => {
-  userStore.setState({ user });
-});
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

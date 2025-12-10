@@ -8,3 +8,9 @@ export type Contact = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+export type NavigationItem = {
+  label: string;
+  to: string;
+  icon: React.ReactNode;
+};
