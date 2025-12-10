@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FirebaseError } from "firebase/app";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { PencilIcon, XIcon } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
@@ -98,8 +99,8 @@ export default function EditContactDialog({
       });
       setOpen(false);
       toast.success("Contact edited successfully");
-    } catch {
-      toast.error("Error editing contact");
+    } catch (error) {
+      toast.error((error as FirebaseError).message);
     }
   }
 

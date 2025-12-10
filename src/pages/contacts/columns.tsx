@@ -1,5 +1,6 @@
 import { db } from "@/main";
 import type { ColumnDef } from "@tanstack/react-table";
+import type { FirebaseError } from "firebase/app";
 import { deleteDoc, doc } from "firebase/firestore";
 import { EllipsisVerticalIcon, EyeIcon, TrashIcon } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -19,8 +20,8 @@ async function deleteContact(id: string) {
   try {
     await deleteDoc(doc(db, "contacts", id));
     toast.success("Contact deleted successfully");
-  } catch {
-    toast.error("Error deleting contact");
+  } catch (error) {
+    toast.error((error as FirebaseError).message);
   }
 }
 

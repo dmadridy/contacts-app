@@ -1,5 +1,6 @@
 import { auth } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -49,8 +50,7 @@ export default function SignUp() {
       navigate("/");
       toast.success("Account created successfully");
     } catch (error) {
-      console.error(error);
-      toast.error("Error creating account");
+      toast.error((error as FirebaseError).message);
     }
   }
 

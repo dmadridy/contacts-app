@@ -1,5 +1,6 @@
 import { auth } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +17,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import FieldsWrapper from "./create-contact/components/fields-wrapper";
+import FieldsWrapper from "../create-contact/components/fields-wrapper";
+import SignInWithEmailDialog from "./components/sign-in-with-email-dialog";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -42,13 +44,12 @@ export default function SignIn() {
       navigate("/");
       toast.success("Signed in successfully");
     } catch (error) {
-      console.error(error);
-      toast.error("Error signing in");
+      toast.error((error as FirebaseError).message);
     }
   }
 
   return (
-    <div className="flex min-h-screen flex-col justify-center">
+    <div className="flex min-h-screen flex-col justify-center gap-4">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldsWrapper>
@@ -88,6 +89,9 @@ export default function SignIn() {
           </FieldsWrapper>
         </form>
       </Form>
+      <div className="flex justify-center">
+        <SignInWithEmailDialog />
+      </div>
     </div>
   );
 }

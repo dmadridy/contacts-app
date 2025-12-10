@@ -1,4 +1,5 @@
 import { db } from "@/main";
+import type { FirebaseError } from "firebase/app";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -25,8 +26,8 @@ export default function Summary() {
         updatedAt: serverTimestamp(),
       });
       toast.success("Contact created successfully");
-    } catch {
-      toast.error("Error creating contact");
+    } catch (error) {
+      toast.error((error as FirebaseError).message);
     }
   }
 

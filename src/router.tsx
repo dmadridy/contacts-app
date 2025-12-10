@@ -11,12 +11,13 @@ import AuthLayout from "@/components/layouts/auth-layout.tsx";
 import AuthRouteGuardian from "./components/layouts/auth-route-guardian.tsx";
 import GuestRouteGuardian from "./components/layouts/guest-route-guardian.tsx";
 import PageLayout from "./components/layouts/page-layout.tsx";
+import { signInLoader } from "./loaders/sign-in-loader.ts";
 import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
 import ContactStep from "./pages/create-contact/contact-step";
 import SummaryStep from "./pages/create-contact/summary-step";
 import Settings from "./pages/settings";
-import SignIn from "./pages/sign-in";
+import SignIn from "./pages/sign-in/index.tsx";
 import SignUp from "./pages/sign-up.tsx";
 
 const authRoutes: RouteObject[] = [
@@ -76,6 +77,7 @@ const noAuthRoutes: RouteObject[] = [
       {
         path: "/sign-in",
         element: <SignIn />,
+        loader: signInLoader,
       },
       {
         path: "/sign-up",

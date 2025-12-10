@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "@/main";
+import type { FirebaseError } from "firebase/app";
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
@@ -24,8 +25,8 @@ export default function Contacts() {
         );
       };
       fetchContacts();
-    } catch {
-      toast.error("Error fetching contacts");
+    } catch (error) {
+      toast.error((error as FirebaseError).message);
     }
   }, []);
 

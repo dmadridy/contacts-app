@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { db } from "@/main";
+import type { FirebaseError } from "firebase/app";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -24,8 +25,8 @@ export default function Contact() {
       (docSnapshot) => {
         setContact(docSnapshot.data() as Contact);
       },
-      () => {
-        toast.error("Error fetching contact");
+      (error) => {
+        toast.error((error as FirebaseError).message);
         navigate("/contacts");
       },
     );
