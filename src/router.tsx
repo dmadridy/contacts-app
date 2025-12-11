@@ -76,8 +76,8 @@ const noAuthRoutes: RouteObject[] = [
     children: [
       {
         path: "/sign-in",
-        element: <SignIn />,
         loader: signInLoader,
+        element: <SignIn />,
       },
       {
         path: "/sign-up",

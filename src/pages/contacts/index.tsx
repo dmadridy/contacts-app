@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { db } from "@/main";
+import { db } from "@/lib/firebase";
 import type { FirebaseError } from "firebase/app";
 import { collection, getDocs } from "firebase/firestore";
 import { Link } from "react-router-dom";

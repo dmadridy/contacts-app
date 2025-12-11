@@ -1,4 +1,3 @@
-import { db } from "@/main";
 import type { ColumnDef } from "@tanstack/react-table";
 import type { FirebaseError } from "firebase/app";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -6,6 +5,7 @@ import { EllipsisVerticalIcon, EyeIcon, TrashIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+import { db } from "@/lib/firebase";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";

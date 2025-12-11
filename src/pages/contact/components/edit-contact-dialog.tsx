@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { db } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FirebaseError } from "firebase/app";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
@@ -10,6 +9,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { KEYWORDS_OPTIONS } from "@/lib/constants";
+import { db } from "@/lib/firebase";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
 import { phoneSchema } from "@/lib/zod-schemas/phone";

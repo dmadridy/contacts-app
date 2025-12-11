@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth } from "@/main";
+import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { Navigate, Outlet } from "react-router-dom";
 

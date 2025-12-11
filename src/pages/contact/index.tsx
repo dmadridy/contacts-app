@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { db } from "@/main";
 import type { FirebaseError } from "firebase/app";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { db } from "@/lib/firebase";
 import type { Contact } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";

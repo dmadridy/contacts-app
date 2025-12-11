@@ -1,4 +1,4 @@
-import { auth } from "@/main";
+import { auth } from "@/lib/firebase";
 import { FirebaseError } from "firebase/app";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";

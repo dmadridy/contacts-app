@@ -1,8 +1,8 @@
+import type { NavigationItem } from "@/lib";
 import { LayoutDashboard, SettingsIcon, UsersIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { useUserStore } from "@/lib/store/user";
-import type { NavigationItem } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,

@@ -1,4 +1,3 @@
-import { auth } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FirebaseError } from "firebase/app";
 import { sendSignInLinkToEmail } from "firebase/auth";
@@ -6,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import { auth } from "@/lib/firebase";
 import FieldsWrapper from "@/pages/create-contact/components/fields-wrapper";
 import { Button } from "@/components/ui/button";
 import {

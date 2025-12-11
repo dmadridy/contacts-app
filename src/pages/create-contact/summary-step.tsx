@@ -1,4 +1,4 @@
-import { db } from "@/main";
+import { db } from "@/lib/firebase";
 import type { FirebaseError } from "firebase/app";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
