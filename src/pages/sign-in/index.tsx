@@ -1,12 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FirebaseError } from "firebase/app";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { auth, provider } from "@/lib/firebase";
+import { auth } from "@/lib/firebase";
+import GitHubSignInButton from "@/pages/sign-in/components/github-sign-in-button";
+import GoogleSignInButton from "@/pages/sign-in/components/google-sign-in-button";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,7 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import GoogleSignInButton from "@/components/google-sign-in-button";
 import FieldsWrapper from "../create-contact/components/fields-wrapper";
 import SignInWithEmailDialog from "./components/sign-in-with-email-dialog";
 
@@ -43,7 +44,6 @@ export default function SignIn() {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
       navigate("/");
-      toast.success("Signed in successfully");
     } catch (error) {
       toast.error((error as FirebaseError).message);
     }
@@ -92,14 +92,8 @@ export default function SignIn() {
       </Form>
       <div className="flex flex-col items-center justify-center gap-4">
         <SignInWithEmailDialog />
-        <Button
-          variant="outline"
-          type="button"
-          onClick={() => signInWithPopup(auth, provider)}
-        >
-          Sign in with Google via popup
-        </Button>
         <GoogleSignInButton />
+        <GitHubSignInButton />
       </div>
     </div>
   );

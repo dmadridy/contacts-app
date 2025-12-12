@@ -52,6 +52,7 @@ export default function SignInWithEmailDialog() {
       toast.error((error as FirebaseError).message);
     }
   }
+
   return (
     <Dialog>
       <DialogTrigger asChild>
