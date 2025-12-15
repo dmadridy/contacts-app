@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
 import { db } from "@/lib/firebase";
+import { useUserStore } from "@/lib/store/user";
 import type { Contact } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -15,13 +16,16 @@ import Keywords from "./components/keywords";
 export default function Contact() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
   const [contact, setContact] = useState<Contact | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !user?.uid) return;
+
+    const userDocRef = doc(db, "users", user.uid);
 
     const unsubscribe = onSnapshot(
-      doc(db, "contacts", id),
+      doc(userDocRef, "contacts", id),
       (docSnapshot) => {
         setContact(docSnapshot.data() as Contact);
       },
@@ -34,7 +38,7 @@ export default function Contact() {
     return () => {
       unsubscribe();
     };
-  }, [id, navigate]);
+  }, [id, navigate, user?.uid]);
 
   return (
     <Card>

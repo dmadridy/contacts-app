@@ -1,10 +1,11 @@
-import { db } from "@/lib/firebase";
 import type { FirebaseError } from "firebase/app";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
+import { db } from "@/lib/firebase";
 import { useCreateContactStore } from "@/lib/store/create-contact";
+import { useUserStore } from "@/lib/store/user";
 import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -16,10 +17,15 @@ export default function Summary() {
   const navigate = useNavigate();
   const data = useCreateContactStore((state) => state.data);
   const reset = useCreateContactStore((state) => state.reset);
+  const user = useUserStore((state) => state.user);
 
   async function addContact() {
+    if (!user?.uid) return;
+    const userId = user?.uid;
+    const userDocRef = doc(db, "users", userId);
+
     try {
-      await addDoc(collection(db, "contacts"), {
+      await addDoc(collection(userDocRef, "contacts"), {
         ...data.basicInfo,
         ...data.contactInfo,
         createdAt: serverTimestamp(),

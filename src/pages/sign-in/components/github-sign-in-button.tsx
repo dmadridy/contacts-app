@@ -8,7 +8,6 @@ export default function GitHubSignInButton() {
   const handleSignIn = async () => {
     try {
       await signInWithPopup(auth, githubProvider);
-      toast.success("Signed in with GitHub successfully");
     } catch {
       toast.error("Error signing in with GitHub");
     }

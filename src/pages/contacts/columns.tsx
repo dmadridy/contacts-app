@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 import { db } from "@/lib/firebase";
+import { userStore } from "@/lib/store/user";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -17,8 +18,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 async function deleteContact(id: string) {
+  const user = userStore.getState().user;
+  if (!user?.uid) return;
+
+  const userDocRef = doc(db, "users", user.uid);
   try {
-    await deleteDoc(doc(db, "contacts", id));
+    await deleteDoc(doc(userDocRef, "contacts", id));
     toast.success("Contact deleted successfully");
   } catch (error) {
     toast.error((error as FirebaseError).message);

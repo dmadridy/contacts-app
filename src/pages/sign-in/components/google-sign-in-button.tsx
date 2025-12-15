@@ -23,7 +23,6 @@ export default function GoogleSignInButton() {
         );
 
         await signInWithCredential(auth, googleCredential);
-        toast.success("Signed in with Google successfully");
       } catch {
         toast.error("Error signing in with Google");
       }

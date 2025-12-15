@@ -1,12 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { auth } from "@/lib/firebase";
+import { auth, db } from "@/lib/firebase";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -46,9 +47,20 @@ export default function SignUp() {
 
   async function onSubmit(data: FormSchema) {
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const user = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password,
+      );
+      await setDoc(doc(db, "users", user.user.uid), {
+        uid: user.user.uid,
+        email: user.user.email,
+        displayName: user.user.displayName,
+        photoURL: user.user.photoURL,
+        emailVerified: user.user.emailVerified,
+        createdAt: serverTimestamp(),
+      });
       navigate("/");
-      toast.success("Account created successfully");
     } catch (error) {
       toast.error((error as FirebaseError).message);
     }
