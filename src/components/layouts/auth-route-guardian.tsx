@@ -14,9 +14,7 @@ export default function AuthRouteGuardian() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setAuthState(user ? "authenticated" : "unauthenticated");
-      if (user) {
-        userStore.setState({ user });
-      }
+      userStore.setState({ user });
     });
 
     return () => {
