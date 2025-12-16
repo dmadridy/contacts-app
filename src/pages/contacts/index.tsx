@@ -18,8 +18,8 @@ export default function Contacts() {
   useEffect(() => {
     if (!user?.uid) return;
 
-    try {
-      const fetchContacts = async () => {
+    const fetchContacts = async () => {
+      try {
         const userDocRef = doc(db, "users", user.uid);
         const contacts = await getDocs(collection(userDocRef, "contacts"));
         setContacts(
@@ -28,11 +28,11 @@ export default function Contacts() {
             ...doc.data(),
           })) as Contact[],
         );
-      };
-      fetchContacts();
-    } catch (error) {
-      toast.error((error as FirebaseError).message);
-    }
+      } catch (error) {
+        toast.error((error as FirebaseError).message);
+      }
+    };
+    fetchContacts();
   }, [user?.uid]);
 
   return (

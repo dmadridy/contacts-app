@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { auth } from "@/lib/firebase";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { Navigate, Outlet } from "react-router-dom";
 
+import { auth } from "@/lib/firebase";
 import { userStore } from "@/lib/store/user";
 import LoadingScreen from "./loading-screen";
 
@@ -11,12 +11,18 @@ export default function AuthRouteGuardian() {
     "loading" | "authenticated" | "unauthenticated"
   >("loading");
 
-  onAuthStateChanged(auth, (user) => {
-    setAuthState(user ? "authenticated" : "unauthenticated");
-    if (user) {
-      userStore.setState({ user });
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthState(user ? "authenticated" : "unauthenticated");
+      if (user) {
+        userStore.setState({ user });
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return authState === "loading" ? (
     <LoadingScreen />

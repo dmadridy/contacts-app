@@ -31,22 +31,57 @@ export default function GoogleSignInButton() {
   );
 
   useEffect(() => {
-    if (window.google) {
-      window.google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: handleCredentialResponse,
-      });
+    const initializeGoogleSignIn = () => {
+      if (!window.google) {
+        return false;
+      }
 
-      window.google.accounts.id.renderButton(buttonDivRef.current, {
-        size: "large",
-        text: "continue_with",
-        shape: "rectangular",
-      });
+      try {
+        window.google.accounts.id.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          callback: handleCredentialResponse,
+        });
 
-      window.google.accounts.id.prompt();
-    } else {
-      toast.warning("Google Identity Services script not loaded yet.");
+        window.google.accounts.id.renderButton(buttonDivRef.current, {
+          size: "large",
+          text: "continue_with",
+          shape: "rectangular",
+        });
+
+        window.google.accounts.id.prompt();
+        return true;
+      } catch (error) {
+        console.error("Error initializing Google Sign-In:", error);
+        return false;
+      }
+    };
+
+    // Try to initialize immediately
+    if (initializeGoogleSignIn()) {
+      return;
     }
+
+    // If not available, set up retry mechanism
+    const maxRetries = 50; // Check for up to ~25 seconds (50 * 500ms)
+    let retryCount = 0;
+    const retryInterval = setInterval(() => {
+      retryCount++;
+
+      if (initializeGoogleSignIn()) {
+        clearInterval(retryInterval);
+        return;
+      }
+
+      if (retryCount >= maxRetries) {
+        clearInterval(retryInterval);
+        toast.error("Google Sign-In failed to load. Please refresh the page.");
+      }
+    }, 500); // Check every 500ms
+
+    // Cleanup interval on unmount
+    return () => {
+      clearInterval(retryInterval);
+    };
   }, [handleCredentialResponse]);
 
   return <div ref={buttonDivRef}></div>;

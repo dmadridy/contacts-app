@@ -43,8 +43,9 @@ export default function SignInWithEmailDialog() {
 
   async function onSubmit(data: FormSchema) {
     try {
+      const separator = window.location.href.includes("?") ? "&" : "?";
       await sendSignInLinkToEmail(auth, data.email, {
-        url: `${window.location.href}?email=${data.email}`,
+        url: `${window.location.href}${separator}email=${data.email}`,
         handleCodeInApp: true,
       });
       toast.success("Email link sent to your email");

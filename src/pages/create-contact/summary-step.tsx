@@ -19,8 +19,8 @@ export default function Summary() {
   const reset = useCreateContactStore((state) => state.reset);
   const user = useUserStore((state) => state.user);
 
-  async function addContact() {
-    if (!user?.uid) return;
+  async function addContact(): Promise<boolean> {
+    if (!user?.uid) return false;
     const userId = user?.uid;
     const userDocRef = doc(db, "users", userId);
 
@@ -32,8 +32,10 @@ export default function Summary() {
         updatedAt: serverTimestamp(),
       });
       toast.success("Contact created successfully");
+      return true;
     } catch (error) {
       toast.error((error as FirebaseError).message);
+      return false;
     }
   }
 
@@ -64,10 +66,12 @@ export default function Summary() {
           Back
         </Button>
         <Button
-          onClick={() => {
-            addContact();
-            navigate("/contacts");
-            reset();
+          onClick={async () => {
+            const success = await addContact();
+            if (success) {
+              navigate("/contacts");
+              reset();
+            }
           }}
         >
           Create Contact
