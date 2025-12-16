@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { db } from "@/main";
+import type { FirebaseError } from "firebase/app";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import { db } from "@/lib/firebase";
+import { useUserStore } from "@/lib/store/user";
 import type { Contact } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -14,18 +16,21 @@ import Keywords from "./components/keywords";
 export default function Contact() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const user = useUserStore((state) => state.user);
   const [contact, setContact] = useState<Contact | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id || !user?.uid) return;
+
+    const userDocRef = doc(db, "users", user.uid);
 
     const unsubscribe = onSnapshot(
-      doc(db, "contacts", id),
+      doc(userDocRef, "contacts", id),
       (docSnapshot) => {
         setContact(docSnapshot.data() as Contact);
       },
-      () => {
-        toast.error("Error fetching contact");
+      (error) => {
+        toast.error((error as FirebaseError).message);
         navigate("/contacts");
       },
     );
@@ -33,24 +38,22 @@ export default function Contact() {
     return () => {
       unsubscribe();
     };
-  }, [id, navigate]);
+  }, [id, navigate, user?.uid]);
 
   return (
-    <div>
-      <Card>
-        <CardHeader className="flex items-center justify-between">
-          <CardTitle>
-            {contact?.firstName} {contact?.lastName}
-          </CardTitle>
-          <EditContactDialog contact={contact} />
-        </CardHeader>
-        <CardContent>
-          <p>{contact?.email}</p>
-          <Phone phone={contact?.phone} />
-          <Separator className="my-4" />
-          <Keywords keywords={contact?.keywords} />
-        </CardContent>
-      </Card>
-    </div>
+    <Card>
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle>
+          {contact?.firstName} {contact?.lastName}
+        </CardTitle>
+        <EditContactDialog contact={contact} />
+      </CardHeader>
+      <CardContent>
+        <p>{contact?.email}</p>
+        <Phone phone={contact?.phone} />
+        <Separator className="my-4" />
+        <Keywords keywords={contact?.keywords} />
+      </CardContent>
+    </Card>
   );
 }

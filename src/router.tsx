@@ -7,73 +7,81 @@ import {
 import Contacts from "@/pages/contacts";
 import Dashboard from "@/pages/dashboard";
 import NotFound from "@/pages/not-found";
-import BaseLayout from "@/components/layouts/base-layout";
-import PageLayout from "@/components/layouts/page-layout";
+import AuthLayout from "@/components/layouts/auth-layout.tsx";
+import AuthRouteGuardian from "./components/layouts/auth-route-guardian.tsx";
+import GuestRouteGuardian from "./components/layouts/guest-route-guardian.tsx";
+import PageLayout from "./components/layouts/page-layout.tsx";
+import { signInLoader } from "./loaders/sign-in-loader.ts";
 import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
 import ContactStep from "./pages/create-contact/contact-step";
 import SummaryStep from "./pages/create-contact/summary-step";
-import SignIn from "./pages/sign-in";
+import Settings from "./pages/settings";
+import SignIn from "./pages/sign-in/index.tsx";
+import SignUp from "./pages/sign-up.tsx";
 
-const baseLayoutRoutes: RouteObject[] = [
+const authRoutes: RouteObject[] = [
   {
-    path: "/",
-    element: (
-      <BaseLayout>
-        <Outlet />
-      </BaseLayout>
-    ),
+    element: <AuthRouteGuardian />,
     children: [
       {
-        index: true,
+        path: "/",
         element: (
-          <PageLayout
-            title="Dashboard"
-            description="This is the dashboard page."
-          >
-            <Dashboard />
-          </PageLayout>
+          <AuthLayout>
+            <PageLayout />
+          </AuthLayout>
         ),
+        children: [
+          {
+            index: true,
+            element: <Dashboard />,
+          },
+          {
+            path: "contacts",
+            element: <Contacts />,
+          },
+          {
+            path: "contact/:id",
+            element: <Contact />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
+          },
+        ],
       },
       {
-        path: "contacts",
-        element: (
-          <PageLayout title="Contacts" description="This is the contacts page.">
-            <Contacts />
-          </PageLayout>
-        ),
+        path: "create-contact",
+        element: <BasicStep />,
       },
       {
-        path: "contact/:id",
-        element: (
-          <PageLayout title="Contact" description="This is the contact page.">
-            <Contact />
-          </PageLayout>
-        ),
+        path: "create-contact/contact",
+        element: <ContactStep />,
+      },
+      {
+        path: "create-contact/summary",
+        element: <SummaryStep />,
       },
     ],
   },
 ];
 
-const noLayoutRoutes: RouteObject[] = [
+const noAuthRoutes: RouteObject[] = [
   {
-    path: "/sign-in",
-    element: <SignIn />,
-  },
-  {
-    path: "/create-contact",
+    element: (
+      <GuestRouteGuardian>
+        <Outlet />
+      </GuestRouteGuardian>
+    ),
     children: [
       {
-        index: true,
-        element: <BasicStep />,
+        path: "/sign-in",
+        loader: signInLoader,
+        element: <SignIn />,
       },
       {
-        path: "contact",
-        element: <ContactStep />,
-      },
-      {
-        path: "summary",
-        element: <SummaryStep />,
+        path: "/sign-up",
+        element: <SignUp />,
       },
     ],
   },
@@ -82,7 +90,7 @@ const noLayoutRoutes: RouteObject[] = [
 const router = createBrowserRouter([
   {
     errorElement: <NotFound />,
-    children: [...baseLayoutRoutes, ...noLayoutRoutes],
+    children: [...authRoutes, ...noAuthRoutes],
   },
 ]);
 

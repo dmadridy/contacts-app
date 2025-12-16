@@ -1,12 +1,63 @@
-import { NavLink } from "react-router-dom";
+import { LayoutDashboard, SettingsIcon, UsersIcon } from "lucide-react";
+import { Link } from "react-router-dom";
+
+import { useUserStore } from "@/lib/store/user";
+import type { NavigationItem } from "@/lib/types";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+
+const navigationItems: NavigationItem[] = [
+  {
+    label: "Dashboard",
+    to: "/",
+    icon: <LayoutDashboard />,
+  },
+  {
+    label: "Contacts",
+    to: "/contacts",
+    icon: <UsersIcon />,
+  },
+  {
+    label: "Settings",
+    to: "/settings",
+    icon: <SettingsIcon />,
+  },
+];
 
 export default function Header() {
+  const user = useUserStore((state) => state.user);
+
   return (
     <header className="border-b p-4">
-      <nav className="container mx-auto flex gap-4">
-        <NavLink to="/">Dashboard</NavLink>
-        <NavLink to="/contacts">Contacts</NavLink>
-      </nav>
+      <div className="container mx-auto flex flex-col">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Avatar className="cursor-pointer self-end">
+              <AvatarImage src={user?.photoURL || ""} />
+              <AvatarFallback className="bg-muted-foreground text-primary-foreground">
+                {user?.email?.charAt(0).toUpperCase()}
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-40">
+            <nav>
+              {navigationItems.map((item) => (
+                <DropdownMenuItem key={item.label} asChild>
+                  <Link to={item.to}>
+                    {item.icon}
+                    {item.label}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </nav>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }

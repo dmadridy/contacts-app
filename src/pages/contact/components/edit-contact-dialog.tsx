@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { db } from "@/main";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { FirebaseError } from "firebase/app";
 import { doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import { PencilIcon, XIcon } from "lucide-react";
 import { useForm, useWatch } from "react-hook-form";
@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 import { KEYWORDS_OPTIONS } from "@/lib/constants";
+import { db } from "@/lib/firebase";
+import { useUserStore } from "@/lib/store/user";
 import type { Contact } from "@/lib/types";
 import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
 import { phoneSchema } from "@/lib/zod-schemas/phone";
@@ -57,6 +59,7 @@ export default function EditContactDialog({
   contact: Contact | null;
 }) {
   const { id } = useParams();
+  const user = useUserStore((state) => state.user);
   const [open, setOpen] = useState(false);
 
   const form = useForm<FormSchema>({
@@ -85,10 +88,11 @@ export default function EditContactDialog({
 
   async function editContact(data: FormSchema) {
     try {
-      if (!id) return;
-      // Strip phone formatting before saving to database
+      if (!id || !user?.uid) return;
+
+      const userDocRef = doc(db, "users", user.uid);
       const unformattedPhone = stripPhoneFormatting(data.phone);
-      await updateDoc(doc(db, "contacts", id), {
+      await updateDoc(doc(userDocRef, "contacts", id), {
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email,
@@ -98,8 +102,8 @@ export default function EditContactDialog({
       });
       setOpen(false);
       toast.success("Contact edited successfully");
-    } catch {
-      toast.error("Error editing contact");
+    } catch (error) {
+      toast.error((error as FirebaseError).message);
     }
   }
 

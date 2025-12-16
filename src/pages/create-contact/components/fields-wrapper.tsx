@@ -4,7 +4,7 @@ export default function FieldsWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center space-y-4 p-4">
+    <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
       {children}
     </div>
   );

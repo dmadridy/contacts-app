@@ -72,101 +72,102 @@ export default function Basic() {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
         className="flex min-h-screen flex-col"
+        onSubmit={form.handleSubmit(onSubmit)}
       >
-        <FieldsWrapper>
-          <FormField
-            control={form.control}
-            name="firstName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>First Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Last Name</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="keywords"
-            render={() => (
-              <FormItem>
-                <FormLabel>Keywords</FormLabel>
-                <FormDescription>
-                  You can select up to 10 keywords
-                </FormDescription>
-                <DropdownMenu>
+        <div className="flex-1 place-content-center">
+          <FieldsWrapper>
+            <FormField
+              control={form.control}
+              name="firstName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>First Name</FormLabel>
                   <FormControl>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        disabled={keywords.length >= 10}
-                        variant="outline"
-                        className="w-full"
-                      >
-                        {keywords.length > 0
-                          ? `${keywords.length} keyword${keywords.length > 1 ? "s" : ""} selected`
-                          : "Select keywords"}
-                      </Button>
-                    </DropdownMenuTrigger>
+                    <Input {...field} />
                   </FormControl>
-                  <DropdownMenuContent
-                    className="max-h-60 max-w-60"
-                    align="start"
-                    side="bottom"
-                  >
-                    {KEYWORDS_OPTIONS.map((keyword) => {
-                      const isSelected = keywords.some(
-                        (item) => item === keyword,
-                      );
-
-                      return (
-                        <DropdownMenuCheckboxItem
-                          key={keyword}
-                          checked={isSelected}
-                          onCheckedChange={() => handleSelectKeyword(keyword)}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="lastName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Last Name</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="keywords"
+              render={() => (
+                <FormItem>
+                  <FormLabel>Keywords</FormLabel>
+                  <FormDescription>
+                    You can select up to 10 keywords
+                  </FormDescription>
+                  <DropdownMenu>
+                    <FormControl>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          disabled={keywords.length >= 10}
+                          variant="outline"
+                          className="w-full"
                         >
-                          {keyword}
-                        </DropdownMenuCheckboxItem>
-                      );
-                    })}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <FormMessage />
-              </FormItem>
+                          {keywords.length > 0
+                            ? `${keywords.length} keyword${keywords.length > 1 ? "s" : ""} selected`
+                            : "Select keywords"}
+                        </Button>
+                      </DropdownMenuTrigger>
+                    </FormControl>
+                    <DropdownMenuContent
+                      className="max-h-60 max-w-60"
+                      align="start"
+                      side="bottom"
+                    >
+                      {KEYWORDS_OPTIONS.map((keyword) => {
+                        const isSelected = keywords.some(
+                          (item) => item === keyword,
+                        );
+                        return (
+                          <DropdownMenuCheckboxItem
+                            key={keyword}
+                            checked={isSelected}
+                            onCheckedChange={() => handleSelectKeyword(keyword)}
+                          >
+                            {keyword}
+                          </DropdownMenuCheckboxItem>
+                        );
+                      })}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {keywords.length > 0 && (
+              <div className="flex flex-wrap gap-2">
+                {keywords.map((keyword) => (
+                  <Button
+                    onClick={() => handleSelectKeyword(keyword)}
+                    variant="outline"
+                    size="sm"
+                    key={keyword}
+                  >
+                    {keyword}
+                    <XIcon className="size-4 cursor-pointer" />
+                  </Button>
+                ))}
+              </div>
             )}
-          />
-          {keywords.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {keywords.map((keyword) => (
-                <Button
-                  onClick={() => handleSelectKeyword(keyword)}
-                  variant="outline"
-                  size="sm"
-                  key={keyword}
-                >
-                  {keyword}
-                  <XIcon className="size-4 cursor-pointer" />
-                </Button>
-              ))}
-            </div>
-          )}
-        </FieldsWrapper>
+          </FieldsWrapper>
+        </div>
         <Navigation>
           <Button type="submit">Next</Button>
         </Navigation>
