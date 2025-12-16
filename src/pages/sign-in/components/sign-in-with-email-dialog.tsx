@@ -45,7 +45,7 @@ export default function SignInWithEmailDialog() {
     try {
       const separator = window.location.href.includes("?") ? "&" : "?";
       await sendSignInLinkToEmail(auth, data.email, {
-        url: `${window.location.href}${separator}email=${data.email}`,
+        url: `${window.location.href}${separator}email=${encodeURIComponent(data.email)}`,
         handleCodeInApp: true,
       });
       toast.success("Email link sent to your email");
