@@ -2,12 +2,14 @@ import { signInWithPopup } from "firebase/auth";
 import { toast } from "sonner";
 
 import { auth, githubProvider } from "@/lib/firebase";
+import { createOrUpdateUserDocument } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 export default function GitHubSignInButton() {
   const handleSignIn = async () => {
     try {
-      await signInWithPopup(auth, githubProvider);
+      const userCredential = await signInWithPopup(auth, githubProvider);
+      await createOrUpdateUserDocument(userCredential.user);
     } catch {
       toast.error("Error signing in with GitHub");
     }

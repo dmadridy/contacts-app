@@ -3,6 +3,7 @@ import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { toast } from "sonner";
 
 import { auth } from "@/lib/firebase";
+import { createOrUpdateUserDocument } from "@/lib/utils";
 
 interface CredentialResponse {
   credential: string;
@@ -22,7 +23,11 @@ export default function GoogleSignInButton() {
           response.credential,
         );
 
-        await signInWithCredential(auth, googleCredential);
+        const userCredential = await signInWithCredential(
+          auth,
+          googleCredential,
+        );
+        await createOrUpdateUserDocument(userCredential.user);
       } catch {
         toast.error("Error signing in with Google");
       }
