@@ -8,13 +8,13 @@ import {
 } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAI9U5G2MeUYs1_WzECy5kChJUfjx1ZnEw",
-  authDomain: "contacts-app-a442f.firebaseapp.com",
-  projectId: "contacts-app-a442f",
-  storageBucket: "contacts-app-a442f.firebasestorage.app",
-  messagingSenderId: "272636938220",
-  appId: "1:272636938220:web:ad83815cd4d52893aba2c9",
-  measurementId: "G-9416P7JMT6",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

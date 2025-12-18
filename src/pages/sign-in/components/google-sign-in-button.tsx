@@ -14,9 +14,6 @@ interface CredentialResponse {
 export default function GoogleSignInButton() {
   const buttonDivRef = useRef<HTMLDivElement>(null);
 
-  const GOOGLE_CLIENT_ID =
-    "272636938220-l1q3j5svpput7ueoquc8en33ldklnp24.apps.googleusercontent.com";
-
   const handleCredentialResponse = useCallback(
     async (response: CredentialResponse) => {
       try {
@@ -45,7 +42,7 @@ export default function GoogleSignInButton() {
 
       try {
         window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
           callback: handleCredentialResponse,
         });
 
