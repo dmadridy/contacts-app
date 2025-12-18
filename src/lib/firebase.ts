@@ -7,9 +7,7 @@ import {
   persistentMultipleTabManager,
 } from "firebase/firestore";
 
-// Use the auto-injected config from /__/firebase/init.js if available,
-// otherwise fallback to environment variables (for local development)
-const firebaseConfig = window.firebaseConfig || {
+const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
   projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
