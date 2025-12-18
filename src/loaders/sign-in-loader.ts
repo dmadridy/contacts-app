@@ -1,8 +1,9 @@
+import { logEvent } from "firebase/analytics";
 import { isSignInWithEmailLink, signInWithEmailLink } from "firebase/auth";
 import { replace, type LoaderFunctionArgs } from "react-router-dom";
 import { toast } from "sonner";
 
-import { auth } from "@/lib/firebase";
+import { analytics, auth } from "@/lib/firebase";
 
 export async function signInLoader({
   request,
@@ -21,6 +22,7 @@ export async function signInLoader({
 
     if (isEmailLink) {
       await signInWithEmailLink(auth, email, fullUrl);
+      logEvent(analytics, "sign_in_with_email_link");
       localStorage.removeItem("pendingEmailLink");
       return replace("/");
     }

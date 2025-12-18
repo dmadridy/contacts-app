@@ -1,3 +1,4 @@
+import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, GithubAuthProvider } from "firebase/auth";
 import {
@@ -29,7 +30,10 @@ const db = initializeFirestore(app, {
 // Initialize Auth
 const auth = getAuth(app);
 
+// Initialize Firebase Analytics
+const analytics = getAnalytics(app);
+
 // Initialize Auth Providers
 const githubProvider = new GithubAuthProvider();
 
-export { app, db, auth, githubProvider };
+export { app, db, auth, githubProvider, analytics };

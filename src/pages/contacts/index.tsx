@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { FirebaseError } from "firebase/app";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,21 +18,26 @@ export default function Contacts() {
   useEffect(() => {
     if (!user?.uid) return;
 
-    const fetchContacts = async () => {
-      try {
-        const userDocRef = doc(db, "users", user.uid);
-        const contacts = await getDocs(collection(userDocRef, "contacts"));
+    const userDocRef = doc(db, "users", user.uid);
+
+    const unsubscribe = onSnapshot(
+      collection(userDocRef, "contacts"),
+      (snapshot) => {
         setContacts(
-          contacts.docs.map((doc) => ({
+          snapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           })) as Contact[],
         );
-      } catch (error) {
+      },
+      (error) => {
         toast.error((error as FirebaseError).message);
-      }
+      },
+    );
+
+    return () => {
+      unsubscribe();
     };
-    fetchContacts();
   }, [user?.uid]);
 
   return (
