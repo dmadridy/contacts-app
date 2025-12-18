@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useRef } from "react";
+import { logEvent } from "firebase/analytics";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { toast } from "sonner";
 
-import { auth } from "@/lib/firebase";
+import { analytics, auth } from "@/lib/firebase";
 import { createOrUpdateUserDocument } from "@/lib/utils";
 
 interface CredentialResponse {
@@ -28,6 +29,7 @@ export default function GoogleSignInButton() {
           googleCredential,
         );
         await createOrUpdateUserDocument(userCredential.user);
+        logEvent(analytics, "sign_in_with_google");
       } catch {
         toast.error("Error signing in with Google");
       }
