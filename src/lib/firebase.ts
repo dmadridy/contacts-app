@@ -6,6 +6,7 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
 } from "firebase/firestore";
+import { fetchAndActivate, getRemoteConfig } from "firebase/remote-config";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -33,7 +34,15 @@ const auth = getAuth(app);
 // Initialize Firebase Analytics
 const analytics = getAnalytics(app);
 
+// Initialize Remote Config
+const remoteConfig = getRemoteConfig(app);
+remoteConfig.defaultConfig = {
+  google_sign_in: false,
+};
+
+fetchAndActivate(remoteConfig);
+
 // Initialize Auth Providers
 const githubProvider = new GithubAuthProvider();
 
-export { app, db, auth, githubProvider, analytics };
+export { app, db, auth, githubProvider, analytics, remoteConfig };
