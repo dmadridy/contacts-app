@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  Outlet,
-  type RouteObject,
-} from "react-router-dom";
+import { createBrowserRouter, type RouteObject } from "react-router-dom";
 
 import Contacts from "@/pages/contacts";
 import Dashboard from "@/pages/dashboard";
@@ -52,15 +48,20 @@ const authRoutes: RouteObject[] = [
       },
       {
         path: "create-contact",
-        element: <BasicStep />,
-      },
-      {
-        path: "create-contact/contact",
-        element: <ContactStep />,
-      },
-      {
-        path: "create-contact/summary",
-        element: <SummaryStep />,
+        children: [
+          {
+            index: true,
+            element: <BasicStep />,
+          },
+          {
+            path: "contact",
+            element: <ContactStep />,
+          },
+          {
+            path: "summary",
+            element: <SummaryStep />,
+          },
+        ],
       },
     ],
   },
@@ -68,11 +69,7 @@ const authRoutes: RouteObject[] = [
 
 const noAuthRoutes: RouteObject[] = [
   {
-    element: (
-      <GuestRouteGuardian>
-        <Outlet />
-      </GuestRouteGuardian>
-    ),
+    element: <GuestRouteGuardian />,
     children: [
       {
         path: "/sign-in",
