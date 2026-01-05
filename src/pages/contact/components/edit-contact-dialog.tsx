@@ -8,10 +8,10 @@ import { useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
+import type { Contact } from "@/index";
 import { KEYWORDS_OPTIONS } from "@/lib/constants";
 import { db } from "@/lib/firebase";
 import { useUserStore } from "@/lib/store/user";
-import type { Contact } from "@/lib/types";
 import { formatPhoneNumber, stripPhoneFormatting } from "@/lib/utils";
 import { phoneSchema } from "@/lib/zod-schemas/phone";
 import { Button } from "@/components/ui/button";

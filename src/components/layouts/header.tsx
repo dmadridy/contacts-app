@@ -1,8 +1,8 @@
 import { LayoutDashboard, SettingsIcon, UsersIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import type { HeaderNavigationItem } from "@/index";
 import { useUserStore } from "@/lib/store/user";
-import type { NavigationItem } from "@/lib/types";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-const navigationItems: NavigationItem[] = [
+const navigationItems: HeaderNavigationItem[] = [
   {
     label: "Dashboard",
     to: "/",

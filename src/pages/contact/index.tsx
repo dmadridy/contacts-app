@@ -4,9 +4,9 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "sonner";
 
+import type { Contact } from "@/index";
 import { db } from "@/lib/firebase";
 import { useUserStore } from "@/lib/store/user";
-import type { Contact } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Phone from "@/components/phone";

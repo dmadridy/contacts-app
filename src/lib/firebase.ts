@@ -31,7 +31,7 @@ const db = initializeFirestore(app, {
 const auth = getAuth(app);
 
 // Initialize Firebase Analytics
-const analytics = getAnalytics(app);
+const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
 
 // Initialize Auth Providers
 const githubProvider = new GithubAuthProvider();

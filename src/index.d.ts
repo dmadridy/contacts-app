@@ -9,8 +9,9 @@ export type Contact = {
   updatedAt: Date;
 };
 
-export type NavigationItem = {
+export type HeaderNavigationItem = {
   label: string;
   to: string;
   icon: React.ReactNode;
 };
+
