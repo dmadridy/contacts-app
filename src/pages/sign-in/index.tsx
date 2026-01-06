@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { logEvent } from "firebase/analytics";
 import type { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
@@ -6,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { z } from "zod";
 
-import { auth } from "@/lib/firebase";
+import { analytics, auth } from "@/lib/firebase";
 import GitHubSignInButton from "@/pages/sign-in/components/github-sign-in-button";
 import GoogleSignInButton from "@/pages/sign-in/components/google-sign-in-button";
 import { Button } from "@/components/ui/button";
@@ -43,6 +44,7 @@ export default function SignIn() {
   async function onSubmit(data: FormSchema) {
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
+      logEvent(analytics, "sign_in_with_email");
       navigate("/");
     } catch (error) {
       toast.error((error as FirebaseError).message);

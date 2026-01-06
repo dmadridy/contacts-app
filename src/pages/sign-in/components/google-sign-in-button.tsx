@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
+import { logEvent } from "firebase/analytics";
 import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { toast } from "sonner";
 
-import { auth } from "@/lib/firebase";
+import { analytics, auth } from "@/lib/firebase";
+import { createOrUpdateUserDocument } from "@/lib/utils";
 
 interface CredentialResponse {
   credential: string;
@@ -12,9 +14,6 @@ interface CredentialResponse {
 export default function GoogleSignInButton() {
   const buttonDivRef = useRef<HTMLDivElement>(null);
 
-  const GOOGLE_CLIENT_ID =
-    "272636938220-l1q3j5svpput7ueoquc8en33ldklnp24.apps.googleusercontent.com";
-
   const handleCredentialResponse = useCallback(
     async (response: CredentialResponse) => {
       try {
@@ -22,7 +21,12 @@ export default function GoogleSignInButton() {
           response.credential,
         );
 
-        await signInWithCredential(auth, googleCredential);
+        const userCredential = await signInWithCredential(
+          auth,
+          googleCredential,
+        );
+        await createOrUpdateUserDocument(userCredential.user);
+        logEvent(analytics, "sign_in_with_google");
       } catch {
         toast.error("Error signing in with Google");
       }
@@ -38,7 +42,7 @@ export default function GoogleSignInButton() {
 
       try {
         window.google.accounts.id.initialize({
-          client_id: GOOGLE_CLIENT_ID,
+          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
           callback: handleCredentialResponse,
         });
 

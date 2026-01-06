@@ -1,3 +1,4 @@
+import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, GithubAuthProvider } from "firebase/auth";
 import {
@@ -5,15 +6,16 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
 } from "firebase/firestore";
+import { fetchAndActivate, getRemoteConfig } from "firebase/remote-config";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAI9U5G2MeUYs1_WzECy5kChJUfjx1ZnEw",
-  authDomain: "contacts-app-a442f.firebaseapp.com",
-  projectId: "contacts-app-a442f",
-  storageBucket: "contacts-app-a442f.firebasestorage.app",
-  messagingSenderId: "272636938220",
-  appId: "1:272636938220:web:ad83815cd4d52893aba2c9",
-  measurementId: "G-9416P7JMT6",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -29,7 +31,18 @@ const db = initializeFirestore(app, {
 // Initialize Auth
 const auth = getAuth(app);
 
+// Initialize Firebase Analytics
+const analytics = getAnalytics(app);
+
+// Initialize Remote Config
+const remoteConfig = getRemoteConfig(app);
+remoteConfig.defaultConfig = {
+  google_sign_in: false,
+};
+
+fetchAndActivate(remoteConfig);
+
 // Initialize Auth Providers
 const githubProvider = new GithubAuthProvider();
 
-export { app, db, auth, githubProvider };
+export { app, db, auth, githubProvider, analytics, remoteConfig };
