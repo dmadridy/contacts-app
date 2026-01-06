@@ -6,7 +6,6 @@ import NotFound from "@/pages/not-found";
 import AuthLayout from "@/components/layouts/auth-layout.tsx";
 import AuthRouteGuardian from "./components/layouts/auth-route-guardian.tsx";
 import GuestRouteGuardian from "./components/layouts/guest-route-guardian.tsx";
-import PageLayout from "./components/layouts/page-layout.tsx";
 import { signInLoader } from "./loaders/sign-in-loader.ts";
 import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
@@ -22,11 +21,7 @@ const authRoutes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: (
-          <AuthLayout>
-            <PageLayout />
-          </AuthLayout>
-        ),
+        element: <AuthLayout />,
         children: [
           {
             index: true,

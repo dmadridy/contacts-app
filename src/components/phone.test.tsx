@@ -7,11 +7,11 @@ import Phone from "./phone";
 describe("Phone component", () => {
   it("should render the no data message when the phone number is undefined", () => {
     customRender(<Phone phone={undefined} />);
-    expect(screen.getByText(NO_DATA_MESSAGE)).toBeDefined();
+    expect(screen.getByText(NO_DATA_MESSAGE)).toBeVisible();
   });
 
   it("should render the phone number with the correct format when the phone number is defined", () => {
     customRender(<Phone phone="1234567890" />);
-    expect(screen.getByText("(123) 456-7890")).toBeDefined();
+    expect(screen.getByText("(123) 456-7890")).toBeVisible();
   });
 });
