@@ -29,10 +29,7 @@ import Navigation from "./components/navigation";
 const formSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  keywords: z
-    .array(z.string().min(1, "Keyword is required"))
-    .min(1, "Select at least one keyword")
-    .max(10, "Maximum 10 keywords allowed"),
+  keywords: z.array(z.string()).max(10, "Maximum 10 keywords allowed"),
 });
 
 type FormSchema = z.infer<typeof formSchema>;

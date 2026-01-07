@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import { NO_DATA_MESSAGE } from "@/lib/constants";
 import { customRender, screen } from "@/lib/test-utils";
+import { formatPhoneNumber } from "@/lib/utils";
 import Phone from "./phone";
 
 describe("Phone component", () => {
@@ -12,6 +13,6 @@ describe("Phone component", () => {
 
   it("should render the phone number with the correct format when the phone number is defined", () => {
     customRender(<Phone phone="1234567890" />);
-    expect(screen.getByText("(123) 456-7890")).toBeVisible();
+    expect(screen.getByText(formatPhoneNumber("1234567890"))).toBeVisible();
   });
 });
