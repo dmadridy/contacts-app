@@ -1,8 +1,8 @@
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { describe, expect, it } from "vitest";
 
-import { render, screen } from "@/lib/test-utils";
 import { formatPhoneNumber } from "@/lib/utils";
 import BasicStep from "@/pages/create-contact/basic-step";
 import ContactStep from "@/pages/create-contact/contact-step";
@@ -11,6 +11,7 @@ import SummaryStep from "@/pages/create-contact/summary-step";
 describe("Create Contact", () => {
   it("should create a contact", async () => {
     const user = userEvent.setup();
+
     render(
       <MemoryRouter initialEntries={["/create-contact"]}>
         <Routes>

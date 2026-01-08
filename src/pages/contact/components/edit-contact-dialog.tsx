@@ -122,7 +122,7 @@ export default function EditContactDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" aria-label="Edit contact">
           <PencilIcon />
         </Button>
       </DialogTrigger>

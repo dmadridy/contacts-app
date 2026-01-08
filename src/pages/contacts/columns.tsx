@@ -56,7 +56,7 @@ export const columns: ColumnDef<Contact>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" aria-label="Contact actions">
               <EllipsisVerticalIcon />
             </Button>
           </DropdownMenuTrigger>
