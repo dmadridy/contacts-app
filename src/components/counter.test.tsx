@@ -1,18 +1,18 @@
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it } from "vitest";
 
-import { customRender, screen } from "@/lib/test-utils";
 import Counter from "./counter";
 
 describe("Counter component", () => {
   it("should display count as 0 when first initialized", () => {
-    customRender(<Counter />);
+    render(<Counter />);
     expect(screen.queryByText("0")).toBeVisible();
   });
 
   it("should increase the count when the increment button is clicked", async () => {
     const user = userEvent.setup();
-    customRender(<Counter />);
+    render(<Counter />);
 
     const incrementButton = screen.getByRole("button", { name: /increment/i });
     await user.click(incrementButton);
@@ -22,7 +22,7 @@ describe("Counter component", () => {
 
   it("should decrease the count when the decrement button is clicked", async () => {
     const user = userEvent.setup();
-    customRender(<Counter />);
+    render(<Counter />);
 
     // First increment to have a count > 0
     const incrementButton = screen.getByRole("button", { name: /increment/i });
@@ -38,7 +38,7 @@ describe("Counter component", () => {
 
   it("should reset the count to 0 when the reset button is clicked", async () => {
     const user = userEvent.setup();
-    customRender(<Counter />);
+    render(<Counter />);
 
     // First increment a few times
     const incrementButton = screen.getByRole("button", { name: /increment/i });

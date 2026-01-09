@@ -18,6 +18,11 @@ const navigationItems: HeaderNavigationItem[] = [
     icon: <LayoutDashboard />,
   },
   {
+    label: "Users",
+    to: "/users",
+    icon: <UsersIcon />,
+  },
+  {
     label: "Contacts",
     to: "/contacts",
     icon: <UsersIcon />,

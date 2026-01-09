@@ -14,6 +14,7 @@ import SummaryStep from "./pages/create-contact/summary-step";
 import Settings from "./pages/settings";
 import SignIn from "./pages/sign-in/index.tsx";
 import SignUp from "./pages/sign-up.tsx";
+import Users from "./pages/users.tsx";
 
 const authRoutes: RouteObject[] = [
   {
@@ -38,6 +39,10 @@ const authRoutes: RouteObject[] = [
           {
             path: "settings",
             element: <Settings />,
+          },
+          {
+            path: "users",
+            element: <Users />,
           },
         ],
       },
