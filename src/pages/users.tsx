@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
+import { useFlags } from "launchdarkly-react-client-sdk";
 
 import type { User } from "@/index";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 
 export default function Users() {
+  const { contactsFlag } = useFlags();
   const [users, setUsers] = useState<User[]>([]);
+
+  console.log(contactsFlag);
 
   useEffect(() => {
     async function getUsers() {
