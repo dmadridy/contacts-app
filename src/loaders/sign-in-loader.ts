@@ -22,7 +22,9 @@ export async function signInLoader({
 
     if (isEmailLink) {
       await signInWithEmailLink(auth, email, fullUrl);
-      logEvent(analytics, "sign_in_with_email_link");
+      if (analytics) {
+        logEvent(analytics, "sign_in_with_email_link");
+      }
       localStorage.removeItem("pendingEmailLink");
       return replace("/");
     }
