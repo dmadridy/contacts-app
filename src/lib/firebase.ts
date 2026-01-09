@@ -32,7 +32,7 @@ const db = initializeFirestore(app, {
 const auth = getAuth(app);
 
 // Initialize Firebase Analytics
-const analytics = typeof window !== "undefined" ? getAnalytics(app) : null;
+const analytics = getAnalytics(app);
 
 // Initialize Remote Config
 const remoteConfig = getRemoteConfig(app);

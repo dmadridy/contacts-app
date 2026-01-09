@@ -14,7 +14,7 @@ describe("Get Users", () => {
   it("should render the users", async () => {
     render(<Users />);
 
-    const response = await fetch("https://users", {
+    const response = await fetch("https://api.escuelajs.co/api/v1/users", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
