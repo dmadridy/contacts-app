@@ -1,7 +1,7 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.get("https://users", () =>
+  http.get("https://api.escuelajs.co/api/v1/users", () =>
     HttpResponse.json(
       [
         {
