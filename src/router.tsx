@@ -1,8 +1,4 @@
-import {
-  createBrowserRouter,
-  Outlet,
-  type RouteObject,
-} from "react-router-dom";
+import { createBrowserRouter, type RouteObject } from "react-router-dom";
 
 import Contacts from "@/pages/contacts";
 import Dashboard from "@/pages/dashboard";
@@ -10,7 +6,6 @@ import NotFound from "@/pages/not-found";
 import AuthLayout from "@/components/layouts/auth-layout.tsx";
 import AuthRouteGuardian from "./components/layouts/auth-route-guardian.tsx";
 import GuestRouteGuardian from "./components/layouts/guest-route-guardian.tsx";
-import PageLayout from "./components/layouts/page-layout.tsx";
 import { signInLoader } from "./loaders/sign-in-loader.ts";
 import Contact from "./pages/contact";
 import BasicStep from "./pages/create-contact/basic-step";
@@ -19,6 +14,7 @@ import SummaryStep from "./pages/create-contact/summary-step";
 import Settings from "./pages/settings";
 import SignIn from "./pages/sign-in/index.tsx";
 import SignUp from "./pages/sign-up.tsx";
+import Users from "./pages/users.tsx";
 
 const authRoutes: RouteObject[] = [
   {
@@ -26,11 +22,7 @@ const authRoutes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: (
-          <AuthLayout>
-            <PageLayout />
-          </AuthLayout>
-        ),
+        element: <AuthLayout />,
         children: [
           {
             index: true,
@@ -48,19 +40,28 @@ const authRoutes: RouteObject[] = [
             path: "settings",
             element: <Settings />,
           },
+          {
+            path: "users",
+            element: <Users />,
+          },
         ],
       },
       {
         path: "create-contact",
-        element: <BasicStep />,
-      },
-      {
-        path: "create-contact/contact",
-        element: <ContactStep />,
-      },
-      {
-        path: "create-contact/summary",
-        element: <SummaryStep />,
+        children: [
+          {
+            index: true,
+            element: <BasicStep />,
+          },
+          {
+            path: "contact",
+            element: <ContactStep />,
+          },
+          {
+            path: "summary",
+            element: <SummaryStep />,
+          },
+        ],
       },
     ],
   },
@@ -68,11 +69,7 @@ const authRoutes: RouteObject[] = [
 
 const noAuthRoutes: RouteObject[] = [
   {
-    element: (
-      <GuestRouteGuardian>
-        <Outlet />
-      </GuestRouteGuardian>
-    ),
+    element: <GuestRouteGuardian />,
     children: [
       {
         path: "/sign-in",

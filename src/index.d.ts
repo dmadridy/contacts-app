@@ -9,8 +9,17 @@ export type Contact = {
   updatedAt: Date;
 };
 
-export type NavigationItem = {
+export type HeaderNavigationItem = {
   label: string;
   to: string;
   icon: React.ReactNode;
+};
+
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  role: string;
+  avatar?: string;
 };

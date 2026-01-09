@@ -4,9 +4,9 @@ import { collection, doc, onSnapshot } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+import type { Contact } from "@/index";
 import { db } from "@/lib/firebase";
 import { useUserStore } from "@/lib/store/user";
-import type { Contact } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table";
 import { columns } from "./columns";

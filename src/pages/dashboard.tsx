@@ -1,9 +1,9 @@
-import { getValue } from "firebase/remote-config";
-
-import { remoteConfig } from "@/lib/firebase";
+import Counter from "@/components/counter";
 
 export default function Dashboard() {
-  const val = getValue(remoteConfig, "google_sign_in");
-
-  return <>{val.asBoolean() && "You signed in with Google"}</>;
+  return (
+    <div className="flex flex-1 items-center justify-center">
+      <Counter />
+    </div>
+  );
 }

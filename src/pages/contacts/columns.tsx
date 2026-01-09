@@ -5,9 +5,9 @@ import { EllipsisVerticalIcon, EyeIcon, TrashIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
+import type { Contact } from "@/index";
 import { db } from "@/lib/firebase";
 import { userStore } from "@/lib/store/user";
-import type { Contact } from "@/lib/types";
 import { formatPhoneNumber } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -56,7 +56,7 @@ export const columns: ColumnDef<Contact>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
+            <Button variant="ghost" size="icon" aria-label="Contact actions">
               <EllipsisVerticalIcon />
             </Button>
           </DropdownMenuTrigger>
