@@ -1,4 +1,9 @@
-import { LayoutDashboard, SettingsIcon, UsersIcon } from "lucide-react";
+import {
+  LayoutDashboard,
+  PhoneCallIcon,
+  SettingsIcon,
+  UsersIcon,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 
 import type { HeaderNavigationItem } from "@/index";
@@ -25,7 +30,7 @@ const navigationItems: HeaderNavigationItem[] = [
   {
     label: "Contacts",
     to: "/contacts",
-    icon: <UsersIcon />,
+    icon: <PhoneCallIcon />,
   },
   {
     label: "Settings",
